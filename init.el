@@ -12,25 +12,26 @@
 
 (setq visible-bell t)
 
-;; Nerd Font!
-(set-face-attribute 'default nil :font "Fira Code Nerd Font Mono" :height 140)
-
-;; Initialize package sources
-
+;; Init package sources
 (require 'package)
-
-(add-to-list 'package-archives '(("melpa" . "https://melpa.org/packages/")))
-
+(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
 
-;; Initialize use-package on non-Linux platforms
+;; Auto-install use-package
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
 
+;; Set Package Options
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
+
 (require 'use-package)
-(setq use-package-always-ensure t)
+
+;; Nerd Font!
+(set-face-attribute 'default nil :font "Fira Code Nerd Font Mono" :height 140)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -124,6 +125,7 @@
 		  circe-chat-mode
 		  circe-query-mode
 		  sauron-mode
+		  dired-mode
 		  term-mode))
     (add-to-list 'evil-emacs-state-modes mode)))
 
@@ -148,13 +150,6 @@
 (load custom-file 'noerror)
 
 (evil-mode 1)
-
-;; C++ Configuration
-(require 'semantic)
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(semantic-mode 1)
-(semantic-enable)
 
 ;; Magit
 (use-package magit
