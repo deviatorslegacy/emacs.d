@@ -120,7 +120,7 @@
   (dolist (mode '(custom-mode
 		  eshell-mode
 		  git-rebase-mode
-		  erc-mode
+      		  erc-mode
 		  circe-server-mode
 		  circe-chat-mode
 		  circe-query-mode
@@ -183,3 +183,15 @@
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(use-package web-mode
+  :config
+  :init
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+    (lambda ()
+      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+        (setup-tide-mode))))
+  (flycheck-add-mode 'typescript-tslint 'web-mode))
+
+;; enable typescript - tslint checker
