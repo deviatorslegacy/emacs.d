@@ -102,7 +102,7 @@
 
 (use-package doom-themes
   :init
-  (load-theme 'doom-1337 t)
+  (load-theme 'doom-dark+ t)
   :custom
   (setq doom-themes-enable-bold t
 	doom-themes-enable-italic t)
